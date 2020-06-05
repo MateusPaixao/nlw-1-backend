@@ -1,13 +1,20 @@
 import express from 'express'
-import knex from './database/connection'
+
+import PointsController from './controller/PointsController'
+import ItemsController from './controller/ItemsController'
+
+const pointsController = new PointsController()
+const itemsController = new ItemsController()
 
 const routes = express.Router()
 
-routes.get('/items', async (request, response) => {
+routes.get('/items', itemsController.index)
 
-    const items = await knex('items').select('*')
-
-    return response.json(items)
-})
+routes.post('/points', pointsController.create)
+routes.get('/points/:id', pointsController.show)
+routes.get('/points', pointsController.index)
 
 export default routes
+
+// Repository patern (Data mapper)
+// Service patern
